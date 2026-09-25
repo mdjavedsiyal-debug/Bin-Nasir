@@ -1,0 +1,250 @@
+{
+  "entities": {
+    "project": {
+      "title": "Project",
+      "description": "Construction or real estate project developed or executed by Bin Nasir Real Estate & Builder",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the project"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title or name of the project",
+          "maxLength": 150
+        },
+        "category": {
+          "type": "string",
+          "description": "Category such as Commercial, Residential, Healthcare, Industrial, Institutional",
+          "enum": ["Commercial", "Residential", "Healthcare", "Industrial", "Institutional", "Infrastructure"]
+        },
+        "location": {
+          "type": "string",
+          "description": "Project location in Lahore or Pakistan",
+          "maxLength": 200
+        },
+        "floors": {
+          "type": "string",
+          "description": "Floors and basement specification, e.g. 4 Basement + 23 Floor",
+          "maxLength": 100
+        },
+        "duration": {
+          "type": "string",
+          "description": "Time period of execution",
+          "maxLength": 50
+        },
+        "workAmount": {
+          "type": "string",
+          "description": "Financial scale or work amount, e.g. PKR 697.40 Million",
+          "maxLength": 60
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the construction scope",
+          "maxLength": 1500
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "Primary display image or project photo URL",
+          "maxLength": 500
+        },
+        "status": {
+          "type": "string",
+          "description": "Project completion status",
+          "enum": ["Completed", "Under Construction", "Ongoing", "Upcoming"]
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Whether this project is highlighted on the home page"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": ["id", "title", "category", "location", "floors", "duration"]
+    },
+    "service": {
+      "title": "Service",
+      "description": "Engineering, construction, finishing, or material supply service",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the service"
+        },
+        "title": {
+          "type": "string",
+          "description": "Name of the service",
+          "maxLength": 150
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of service: Construction, Specialized, Finishes, Materials",
+          "maxLength": 60
+        },
+        "description": {
+          "type": "string",
+          "description": "Overview of service offerings and technical execution",
+          "maxLength": 1000
+        },
+        "icon": {
+          "type": "string",
+          "description": "Lucide icon name identifier",
+          "maxLength": 50
+        },
+        "features": {
+          "type": "array",
+          "description": "Key highlights and specifications list"
+        }
+      },
+      "required": ["id", "title", "category", "description"]
+    },
+    "inquiry": {
+      "title": "Inquiry",
+      "description": "Client consultation request or contact inquiry submission",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique inquiry id"
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name of prospective client",
+          "maxLength": 100,
+          "minLength": 2
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address",
+          "maxLength": 120
+        },
+        "phone": {
+          "type": "string",
+          "description": "Contact phone or WhatsApp number",
+          "maxLength": 30,
+          "minLength": 7
+        },
+        "projectType": {
+          "type": "string",
+          "description": "Type of project or service requested",
+          "maxLength": 100
+        },
+        "budgetRange": {
+          "type": "string",
+          "description": "Estimated budget or project scale",
+          "maxLength": 100
+        },
+        "message": {
+          "type": "string",
+          "description": "Details or specific requirements",
+          "maxLength": 2000,
+          "minLength": 5
+        },
+        "status": {
+          "type": "string",
+          "description": "Processing status of inquiry",
+          "enum": ["New", "Contacted", "Proposal Sent", "Closed"]
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when inquiry was submitted"
+        }
+      },
+      "required": ["name", "phone", "message"]
+    },
+    "testimonial": {
+      "title": "Testimonial",
+      "description": "Client review or endorsement for Bin Nasir Real Estate & Builder",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Client or executive name",
+          "maxLength": 100
+        },
+        "role": {
+          "type": "string",
+          "description": "Designation or title",
+          "maxLength": 100
+        },
+        "company": {
+          "type": "string",
+          "description": "Organization or project name",
+          "maxLength": 100
+        },
+        "feedback": {
+          "type": "string",
+          "description": "Testimonial content",
+          "maxLength": 1000
+        },
+        "rating": {
+          "type": "number",
+          "description": "Star rating out of 5"
+        },
+        "projectRef": {
+          "type": "string",
+          "description": "Related project name",
+          "maxLength": 100
+        }
+      },
+      "required": ["id", "name", "feedback", "rating"]
+    },
+    "analytics": {
+      "title": "Analytics",
+      "description": "Aggregated application and engagement analytics metrics",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Analytics document identifier, e.g. metrics"
+        },
+        "pageViews": {
+          "type": "number",
+          "description": "Total live page views count"
+        },
+        "projectViews": {
+          "type": "number",
+          "description": "Total project clicks and views"
+        },
+        "inquiriesCount": {
+          "type": "number",
+          "description": "Total inquiries received"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "description": "Last metrics update timestamp"
+        }
+      },
+      "required": ["id", "pageViews"]
+    }
+  },
+  "firestore": {
+    "/projects/{projectId}": {
+      "schema": "project",
+      "description": "Public portfolio projects listing"
+    },
+    "/services/{serviceId}": {
+      "schema": "service",
+      "description": "Construction and engineering services offered"
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": "inquiry",
+      "description": "Incoming client consultation requests and contact messages"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "testimonial",
+      "description": "Verified client reviews and endorsements"
+    },
+    "/analytics/{analyticsId}": {
+      "schema": "analytics",
+      "description": "Site engagement and interaction analytics counters"
+    }
+  }
+}

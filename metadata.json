@@ -1,0 +1,8 @@
+{
+  "name": "Bin Nasir Real Estate & Builder",
+  "description": "Premier construction, engineering and real estate development company in Pakistan. Specializing in high-rise towers, commercial plazas, luxury housing, civil infrastructure, and premium building materials.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

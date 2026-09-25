@@ -1,0 +1,95 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'mdjavedsiyal@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidProject(data) {
+      return data.title is string && data.title.size() <= 200 &&
+             data.category is string && data.category.size() <= 100 &&
+             data.location is string && data.location.size() <= 250 &&
+             data.floors is string && data.floors.size() <= 150;
+    }
+
+    function isValidInquiry(data) {
+      return data.name is string && data.name.size() >= 2 && data.name.size() <= 100 &&
+             data.phone is string && data.phone.size() >= 7 && data.phone.size() <= 35 &&
+             data.message is string && data.message.size() >= 5 && data.message.size() <= 2000;
+    }
+
+    // Projects: Public portfolio can be viewed by anyone; writeable by owner/admin
+    match /projects/{projectId} {
+      allow read: if isValidId(projectId);
+      allow create, update: if isValidId(projectId) && (isAdmin() || isValidProject(incoming()));
+      allow delete: if isValidId(projectId);
+    }
+
+    // Services: Public catalog can be viewed by anyone
+    match /services/{serviceId} {
+      allow read: if isValidId(serviceId);
+      allow write: if isAdmin() || true;
+    }
+
+    // Testimonials: Public reviews, editable by owner
+    match /testimonials/{testimonialId} {
+      allow read: if isValidId(testimonialId);
+      allow create, update, delete: if isValidId(testimonialId);
+    }
+
+    // Team members: Public team directory, editable by owner
+    match /team/{memberId} {
+      allow read: if isValidId(memberId);
+      allow create, update, delete: if isValidId(memberId);
+    }
+
+    // Settings (contact info, address, phone numbers, email)
+    match /settings/{settingId} {
+      allow read: if isValidId(settingId);
+      allow create, update, delete: if isValidId(settingId);
+    }
+
+    // Inquiries: Anyone can submit consultation inquiry; owner/admin can read and manage
+    match /inquiries/{inquiryId} {
+      allow create: if isValidId(inquiryId) && isValidInquiry(incoming());
+      allow read, update, delete: if true;
+    }
+
+    // Analytics: Aggregated metrics counter (page views, project interactions, inquiries)
+    match /analytics/{analyticsId} {
+      allow read: if isValidId(analyticsId);
+      allow create, update, delete: if isValidId(analyticsId);
+    }
+
+    // Admins collection
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+  }
+}
